@@ -1,0 +1,101 @@
+{
+  "info": {
+    "_postman_id": "d984d740-1d2d-4bcb-b8d7-5a2d6233521b",
+    "name": "Capstone",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48403529",
+    "_collection_link": "https://go.postman.co/collection/48403529-d984d740-1d2d-4bcb-b8d7-5a2d6233521b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "sample hit to check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/hello/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "hello",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get_user_on_user_id",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"user_id\": 1\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/get-user/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "get-user",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create_user",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"user_id\": 1,\r\n  \"name\" : \"NEW_USER1\",\r\n  \"email\" : \"abc@def.com\",\r\n  \"password\" : \"adsf\",\r\n  \"role\" : \"student\"\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/create-user/",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "create-user",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
