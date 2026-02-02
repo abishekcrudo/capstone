@@ -15,6 +15,7 @@ class User(models.Model):
         max_length=20,
         choices=ROLE_CHOICES
     )
+
     class Meta:
         db_table = 'Users'
         managed = False

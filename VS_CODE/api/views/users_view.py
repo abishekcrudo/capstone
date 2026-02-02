@@ -1,10 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+from api.orm_models.student_model import Student
+from api.orm_models.startup_model import Startup
 from ..orm_models.user_model import User
-from ..serializers import UserSerializer, UserSignupSerializer
+from ..serializers import UserSerializer
 from ..views.student_view import create_student_for_user
 from ..views.startup_view import create_startup_for_user
 
@@ -15,53 +19,23 @@ def hello_api(request):
         "message": "Hello, Django API 🚀"
     })
 
-#get user data based on user_id
-@api_view(['POST'])
-def get_user_by_id(request):
-    user_id = request.data.get('user_id')
-
-    if not user_id:
-        return Response(
-            {"error": "user_id is required"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    try:
-        user = User.objects.get(user_id=user_id)
+class UserDetailView(APIView):
+    def get(self, request, user_id=None):
+        user = get_object_or_404(User, user_id=user_id)
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    except User.DoesNotExist:
-        return Response(
-            {"error": "User not found"},
-            status=status.HTTP_404_NOT_FOUND
-        )
-
-#create user  
-@api_view(['POST'])
-def signup_user(request):
-    user_id = request.data.get('user_id')
-
-    #Check if user_id already exists
-    if User.objects.filter(user_id=user_id).exists():
-        return Response(
-            {"error": "User with this user_id already exists"},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    #Create user
-    serializer = UserSignupSerializer(data=request.data)
-
-    if serializer.is_valid():
-        user = serializer.save()
-        if request.data.get('role') == "student":
-            create_student_for_user(user)
-        elif request.data.get('role') == "startup":
-            create_startup_for_user(user)
-        return Response(
-            {"message": "User created successfully"},
-            status=status.HTTP_201_CREATED
-        )
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class UserCreateView(APIView):
+    def post(self, request):
+        user_serializer = UserSerializer(data=request.data)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            if user_serializer.validated_data.get('role') == 'student':
+                create_student_for_user(user)
+            elif user_serializer.validated_data.get('role') == 'startup':
+                company_name = request.data.get('company_name', '')
+                create_startup_for_user(user, company_name)
+            return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
