@@ -2,7 +2,7 @@ from django.urls import path
 
 from api.views.applications_view import ApplicationDetailView, ApplicationListView
 from api.views.rating_view import get_ratings
-from .views.users_view import UserDetailView, hello_api, UserCreateView
+from .views.users_view import UserDetailView, UserLoginView, hello_api, UserCreateView
 from .views.tasks_view import get_tasks, create_task, delete_task
 
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('tasks/delete/', delete_task, name='delete-task'),
     path('applications/', ApplicationListView.as_view(), name='application-list'),
     path('applications/<int:application_id>/', ApplicationDetailView.as_view(), name='application-detail'),
+    path('users/login/', UserLoginView.as_view(), name='user-login'),
 ]
