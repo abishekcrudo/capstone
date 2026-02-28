@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'domain_search',  # Add your app here
+    'domain_search',
+    'users',  # Add your app here
 ]
 
 MIDDLEWARE = [
